@@ -1,0 +1,73 @@
+﻿@model IEnumerable<UIProyecto2v2.Models.Tiquete>
+
+@{
+    ViewData["Title"] = "MostrarReporte";
+}
+
+<h1>MostrarReporte</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TiqueteID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParqueoID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Placa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaMediaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnUso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto_Pagado)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiqueteID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParqueoID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingreso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Placa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaMediaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnUso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_Pagado)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<UIProyecto2v2.Models.Parqueo>
+
+@{
+    ViewData["Title"] = "Parqueos";
+}
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<h1>Parqueo</h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a asp-action="Create" class="navbar-brand">Crear Parqueo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        @using (Html.BeginForm())
+        {
+            <p>
+                Encontrar por nombre: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxVehiculos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraApertura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraCierre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalVendido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaMediaHora)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxVehiculos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraApertura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraCierre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalVendido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaMediaHora)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

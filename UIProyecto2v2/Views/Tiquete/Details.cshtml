@@ -1,0 +1,80 @@
+﻿@model UIProyecto2v2.Models.Tiquete
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Tiquete</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ParqueoID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParqueoID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ingreso)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ingreso)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Salida)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.EnUso)
+            {
+                <p>En uso</p>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Salida)
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Placa)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Placa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TarifaHora)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TarifaHora)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TarifaMediaHora)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TarifaMediaHora)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnUso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnUso)
+        </dd>
+        @if (!Model.EnUso)
+        {
+            <dd class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Monto_Pagado)
+            </dd>
+            <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.Monto_Pagado)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.TiqueteID">Edit</a> |
+    @if (Model.EnUso)
+    {
+        <a asp-action="CerrarTiquete" asp-route-id="@Model?.TiqueteID">CerrarTiquete </a> @Html.Raw(" | ")
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

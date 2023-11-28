@@ -1,0 +1,115 @@
+﻿@model IEnumerable<UIProyecto2v2.Models.Tiquete>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Tiquete</h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a asp-action="Create" class="navbar-brand">Crear Tiquete</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        @using (Html.BeginForm())
+        {
+            <p>
+                Encontrar por placa: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+</nav>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Placa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParqueoID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaMediaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnUso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto_Pagado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Placa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParqueoID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingreso)
+            </td>
+            <td>
+                @if (item.EnUso)
+                {
+                    <p>En uso</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Salida);
+                }
+            </td>
+        
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaMediaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnUso)
+            </td>
+
+            <td>
+                @if (item.EnUso)
+                {
+                    <p>En uso</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Monto_Pagado)
+                }
+               
+            </td>
+
+            <td>
+                @if (item.EnUso)
+                {
+                    <a asp-action="CerrarTiquete" asp-route-id="@item.TiqueteID">Cerrar Tiquete </a> @Html.Raw(" | ")
+                }
+                <a asp-action="Edit" asp-route-id="@item.TiqueteID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TiqueteID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TiqueteID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

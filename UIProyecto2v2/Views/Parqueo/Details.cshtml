@@ -1,0 +1,67 @@
+﻿@model UIProyecto2v2.Models.Parqueo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Parqueo</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxVehiculos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxVehiculos)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HoraApertura)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HoraApertura)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HoraCierre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HoraCierre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.totalVendido)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.totalVendido)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TarifaMediaHora)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TarifaMediaHora)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TarifaHora)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TarifaHora)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="CrearReporte" asp-route-id="@Model?.Id">Reporte</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

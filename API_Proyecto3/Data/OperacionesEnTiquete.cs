@@ -16,15 +16,31 @@ namespace API_Proyecto3.Data
             _context.Entry(tiquete).State = EntityState.Modified;
             var parqueo = await _context.Parqueo.FindAsync(tiquete.ParqueoId);
 
-            if (tiquete.Ingreso.Hour < parqueo.HoraApertura.Hour && tiquete.Ingreso.Hour > parqueo.HoraCierre.Hour)
+            
+            if (parqueo != null)
             {
-                throw new Exception("El ingreso no se esta haciendo en el horario debido");
+                if (parqueo.Tiquetes.Count > parqueo.MaxVehiculos)
+                {
+                    throw new Exception("Ha alcanzado el maximo de vehiculos");
+                }
+
+                if (tiquete.Ingreso.Hour < parqueo.HoraApertura.Hour || tiquete.Ingreso.Hour > parqueo.HoraCierre.Hour)
+                {
+                    throw new Exception("El ingreso no se esta haciendo en el horario debido");
+                }
+                tiquete.TarifaHora = parqueo.TarifaHora;
+                tiquete.TarifaMediaHora = parqueo.TarifaMediaHora;
+                
+            }
+            else
+            {
+                throw new Exception("El parqueo especificado no existe");
             }
 
             if (tiquete.Ingreso != null && tiquete.Salida != null)
             {
                 int total = 0;
-                TimeSpan difference = DateTime.Now - tiquete.Ingreso;
+                TimeSpan difference = (TimeSpan)(tiquete.Salida - tiquete.Ingreso);
                 if (difference.TotalSeconds > 0)
                 {
                     int tarifaHoras = (int)difference.Hours * (int)tiquete.TarifaHora;
@@ -35,10 +51,8 @@ namespace API_Proyecto3.Data
                 {
                     throw new Exception("Hubo un error, la hora de salida debe ser posterior a la hora de entrada.");
                 }
-                
 
             }
-
 
             _context.Entry(tiquete).State = EntityState.Modified;
 
@@ -47,15 +61,23 @@ namespace API_Proyecto3.Data
                 await _context.SaveChangesAsync();
 
                 OperacionesEnParqueo OParqueo = new OperacionesEnParqueo(_context);
-                OParqueo.ActualizarTotalVendido(tiquete.ParqueoId);
+
+                await OParqueo.ActualizarTotalVendido(tiquete.ParqueoId);
+
                 return true;
             }
             catch (DbUpdateConcurrencyException e)
             {
                 throw e;
             }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
         } 
+
+
 
         public async Task<bool> CrearTiquete(Tiquete tiquete)
         {
@@ -69,6 +91,15 @@ namespace API_Proyecto3.Data
 
             if (parqueo != null)
             {
+                if (tiquete.Ingreso.Hour < parqueo.HoraApertura.Hour || tiquete.Ingreso.Hour > parqueo.HoraCierre.Hour)
+                {
+                    throw new Exception("El ingreso no se esta haciendo en el horario debido");
+                }
+
+                if (parqueo.Tiquetes.Count >= parqueo.MaxVehiculos)
+                {
+                    throw new Exception("Ha alcanzado el maximo de vehiculos");
+                }
                 tiquete.TarifaHora = parqueo.TarifaHora;
                 tiquete.TarifaMediaHora = parqueo.TarifaMediaHora;
             }
@@ -76,18 +107,13 @@ namespace API_Proyecto3.Data
             {
                 throw new Exception("El parqueo no fue encontrado");
             }
-
-            if (tiquete.Ingreso.Hour < parqueo.HoraApertura.Hour || tiquete.Ingreso.Hour > parqueo.HoraCierre.Hour)
-            {
-                throw new Exception("El ingreso no se esta haciendo en el horario debido");
-            }
-
-
             _context.Tiquete.Add(tiquete);
             await _context.SaveChangesAsync();
 
             return true;
         }
+
+
         public async Task<bool> BorrarTiquete(int id)
         {
             var tiquete = await _context.Tiquete.FindAsync(id);

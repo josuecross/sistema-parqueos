@@ -1,0 +1,109 @@
+﻿@model IEnumerable<UIProyecto2v2.Models.Parqueo>
+
+@{
+    ViewData["Title"] = "ReporteMasVentasMes";
+}
+@{
+    string mes = null;
+    string leyenda = "";
+    if (!String.IsNullOrEmpty(ViewBag.Mes))
+    {
+        mes = ViewBag.Mes;
+        leyenda = mes;
+    }
+    else
+    {
+        mes = null;
+        leyenda = "Historial completo de ventas";
+    }
+
+}
+
+<h1>Mas Ventas Por Mes</h1>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <p>Mostrando reporte de @leyenda </p>
+        <ul class="navbar-nav mr-auto"></ul>
+
+        <form asp-action="ReporteMasVentasMes" style="display:flex; flex-direction: row; ">
+            
+            <div id='mes' >
+                <div class="form-group">
+                    <input name="mes" class="form-control" type="month" max="@DateTime.Now.ToString("yyyy-MM")" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaMediaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxVehiculos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraApertura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraCierre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalVendido)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaMediaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxVehiculos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraApertura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraCierre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalVendido)
+            </td>
+            <td>
+                    @Html.ActionLink("MostrarReporte", "MostrarReporte", new { id=item.Id, mes = mes }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

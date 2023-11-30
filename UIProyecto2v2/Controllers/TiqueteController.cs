@@ -67,7 +67,7 @@ namespace UIProyecto2v2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParqueoID,TiqueteID,Ingreso,Salida,Placa,TarifaHora,TarifaMediaHora,EnUso")] Tiquete tiquete)
+        public async Task<IActionResult> Create([Bind("ParqueoID,TiqueteID,Ingreso,Salida,Placa,EnUso")] Tiquete tiquete)
         {
             List<string> mensajes = new List<string>();
             ViewBag.Parqueos = _iservicioParqueo.Get().Result;
@@ -97,7 +97,7 @@ namespace UIProyecto2v2.Controllers
         // GET: Tiquete/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-
+            ViewBag.Parqueos = _iservicioParqueo.Get().Result;
             if (id == null)
             {
                 return NotFound("NO se especifico ningun id");
@@ -121,24 +121,43 @@ namespace UIProyecto2v2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParqueoID,TiqueteID,Ingreso,Salida,Placa,TarifaHora,TarifaMediaHora,EnUso")] Tiquete tiquete)
+        public async Task<IActionResult> Edit(int id, [Bind("ParqueoID,TiqueteID,Ingreso,Salida,Placa,EnUso")] Tiquete tiquete)
         {
-            if (tiquete.Salida < tiquete.Ingreso)
+            ViewBag.Parqueos = _iservicioParqueo.Get().Result;
+            List<string> mensajes = new List<string>();
+            if (tiquete.Salida != null)
             {
-                return BadRequest("La hora de entrada debe ser anterior a la hora de salida");
+                DateTime salida = (DateTime)tiquete.Salida;
+                if (salida < tiquete.Ingreso)
+                {
+                    mensajes.Add("La hora de entrada debe ser anterior a la hora de salida");
+                    ViewBag.Mensajes = mensajes;
+                    return View(tiquete);
+                }
+
+                if (!salida.ToString("dd-MM-yy").Equals(tiquete.Ingreso.ToString("dd-MM-yy")))
+                {
+                    mensajes.Add("El dia debe ser el mismo para entrada y salida");
+                    ViewBag.Mensajes = mensajes;
+                    return View(tiquete);
+                }
+
             }
+           
             if (id != tiquete.TiqueteID)
             {
                 return NotFound("No se especifico el id");
             }
 
-            bool res = await _iservicioTiquete.Actualizar(id, tiquete);
-            if( res)
+            string res = await _iservicioTiquete.Actualizar(id, tiquete);
+            if(res.Equals("OK"))
             {
                 return RedirectToAction(nameof(Index));
             }
             else
             {
+                mensajes.Add(res);
+                ViewBag.Mensajes = mensajes;
                 return View(tiquete);
             }
    

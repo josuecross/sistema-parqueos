@@ -12,27 +12,28 @@ namespace API_Proyecto3.Data
         {
             _context = context;
         }
-        public bool ActualizarTotalVendido(int id)
+        public async Task<bool> ActualizarTotalVendido(int id)
         {
-            ICollection<Tiquete> tiquetes = _context.Tiquete.Where(t=>t.ParqueoId == id).ToList();
+            Parqueo parqueo = await _context.Parqueo.FindAsync(id);
             int totalVendido = 0;
 
-            if (tiquetes != null)
+            if (parqueo != null)
             {
-               
-                foreach (Tiquete tiquete in tiquetes)
+                _context.Entry(parqueo).Collection(x => x.Tiquetes).Load();
+                foreach (Tiquete tiquete in parqueo.Tiquetes)
                 {
                     if (tiquete.Monto_Pagado != null)
                     {
                         totalVendido += (int)tiquete.Monto_Pagado;
                     }
                 }
-                Parqueo parqueo = _context.Parqueo.FindAsync(id).Result;
+
+                
                 parqueo.TotalVendido = totalVendido;
 
                 try
                 {
-                    var res = PutParqueo(parqueo.Id, parqueo);
+                    bool res = await PutParqueo(parqueo.Id, parqueo);
                     if (res)
                     {
                         return true;
@@ -50,18 +51,18 @@ namespace API_Proyecto3.Data
             }
             else
             {
-                return false;
+                throw new Exception("El parqueo no existe");
             }
 
         }
 
-        public bool PutParqueo (int id, Parqueo parqueo) 
+        public async Task<bool> PutParqueo (int id, Parqueo parqueo) 
         {
             _context.Entry(parqueo).State = EntityState.Modified;
 
             try
             {
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (DbUpdateConcurrencyException e)

@@ -78,7 +78,7 @@ namespace UIProyecto2v2.Servicios
 			return await response.Content.ReadAsStringAsync();
 		}
 
-		public async Task<bool> Actualizar(int id, Tiquete obj_tiquete)
+		public async Task<string> Actualizar(int id, Tiquete obj_tiquete)
 		{
 			bool Respuesta = false;
 			var cliente = new HttpClient();
@@ -89,11 +89,11 @@ namespace UIProyecto2v2.Servicios
 
 			if (response.IsSuccessStatusCode)
 			{
-				Respuesta = true;
+				return "OK";
 			}
 
-			return Respuesta;
-		}
+			return await response.Content.ReadAsStringAsync();
+        }
 
 		public async Task<string> CerrarTiquete(int id)
         {
@@ -108,14 +108,15 @@ namespace UIProyecto2v2.Servicios
                 var resultado = JsonConvert.DeserializeObject<Tiquete>(json_respuesta);
                 V_Tiquete = resultado;
                 V_Tiquete.EnUso = false;
-                V_Tiquete.Salida = DateTime.Now;
+				if (V_Tiquete.Salida == null)
+				{
+					V_Tiquete.Salida = DateTime.Now;
+				}
 
 				if (V_Tiquete.Salida < V_Tiquete.Ingreso)
 				{
-					return "La hora de salida debe ser despues de la hora de entrada";
+					return $"La hora de salida debe ser despues de la hora de entrada - ingreso: {V_Tiquete.Ingreso}, salida: Hora de la computadora";
 				}
-
-
 				//TimeSpan difference = DateTime.Now - V_Tiquete.Ingreso;
 				//
 				//int tarifaHoras = (int)difference.Hours * (int)V_Tiquete.TarifaHora;
@@ -124,10 +125,10 @@ namespace UIProyecto2v2.Servicios
 				//V_Tiquete.Monto_Pagado = tarifaHoras + tarifaMediaHora;
 
 
-                bool actualizado = await Actualizar(id, V_Tiquete);
+                string actualizado = await Actualizar(id, V_Tiquete);
 
 
-                if (actualizado) {
+                if (actualizado.Equals("OK")) {
 					return "OK";
 				}
 				else

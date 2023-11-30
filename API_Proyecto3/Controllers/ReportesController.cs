@@ -32,45 +32,35 @@ namespace API_Proyecto3.Controllers
         [HttpGet("Parqueo/{id}")]
         public ActionResult<IEnumerable<Tiquete>> Get(int id, string? From, string? To)
         {
-
-            IEnumerable<Tiquete> tiquetes = _context.Tiquete.Where(tiquete => tiquete.ParqueoId == id && tiquete.EnUso == false).ToList();
-            if (tiquetes != null)
+            try
             {
-                if (From != null && To != null)
-                {
-                    DateTime datefrom = DateTime.Parse(From);
-                    DateTime dateTo = DateTime.Parse(To);
-
-                    tiquetes = tiquetes.Where(tiquete => tiquete.Ingreso >= datefrom && tiquete.Salida <= dateTo);
-                }
-
+                OperacionesEnReporte OReporte = new OperacionesEnReporte(_context);
+                IEnumerable<Tiquete> tiquetes = OReporte.ObtenerTiquetesRangoTiempo(id, From, To);
                 return Ok(tiquetes);
             }
-
-            else
+            catch(Exception e )
             {
-                return NotFound("No se encontro el parqueo indicado");
-            }
-          
+                return BadRequest(e.Message);
+            }          
         }
 
 
         // GET api/<ReportesController>/5
         [HttpGet("Parqueo/")]
-        public ActionResult<IEnumerable<Tiquete>> GetMasVentas()
-        {
-            IEnumerable<Parqueo> laLista = new List<Parqueo>();
-
-            var res = _context.Parqueo.ToListAsync();
-            
-            if(res != null)
+        public  ActionResult<IEnumerable<Parqueo>> GetMasVentas(string? From, string? To)
+        {   
+            try
             {
-                laLista = res.Result;
-                laLista = laLista.OrderByDescending(o => o.TotalVendido);
+                OperacionesEnReporte OReporte = new OperacionesEnReporte(_context);
+                IEnumerable<Parqueo> parqueos = OReporte.ObtenerParqueosMasVentas(From, To);
+
+                
+                return Ok(parqueos);
             }
-
-
-            return Ok(laLista);
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

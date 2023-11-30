@@ -62,7 +62,14 @@ namespace UIProyecto2v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nombre,MaxVehiculos,HoraApertura,HoraCierre,totalVendido, TarifaHora, TarifaMediaHora")] Parqueo parqueo)
         {
+            List<string> mensajes = new List<string>();
 
+            if(parqueo.TarifaHora < parqueo.TarifaMediaHora)
+            {
+                mensajes.Add("Tarifa media hora debe ser menor a tarifa hora");
+                ViewBag.Mensajes = mensajes;
+                return View(parqueo);
+            }
             string res = await _iservicioParqueo.Guardar(parqueo);
             if (res.Equals( "OK"))
             {
@@ -101,12 +108,22 @@ namespace UIProyecto2v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,MaxVehiculos,HoraApertura,HoraCierre,totalVendido, TarifaHora, TarifaMediaHora")] Parqueo parqueo)
         {
+
+            List<string> mensajes = new List<string>();
             if (id != parqueo.Id)
             {
                 return NotFound("No se especifico el id");
             }
 
-    
+
+            if (parqueo.TarifaHora < parqueo.TarifaMediaHora)
+            {
+
+                mensajes.Add("Tarifa media Hora debe ser menor a tarifa hora");
+                ViewBag.Mensajes = mensajes;
+                return View(parqueo);
+            }
+
             bool res = await _iservicioParqueo.Actualizar(id, parqueo);
 
             if (res)

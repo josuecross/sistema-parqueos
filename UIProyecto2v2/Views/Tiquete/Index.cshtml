@@ -29,6 +29,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.TiqueteID)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Placa)
             </th>
             <th>
@@ -58,6 +61,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TiqueteID)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Placa)
             </td>
@@ -68,7 +74,7 @@
                 @Html.DisplayFor(modelItem => item.Ingreso)
             </td>
             <td>
-                @if (item.EnUso)
+                @if (item.Salida == null)
                 {
                     <p>En uso</p>
                 }
@@ -89,7 +95,7 @@
             </td>
 
             <td>
-                @if (item.EnUso)
+                @if (item.Monto_Pagado == null)
                 {
                     <p>En uso</p>
                 }

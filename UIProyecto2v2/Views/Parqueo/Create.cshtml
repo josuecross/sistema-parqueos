@@ -4,7 +4,34 @@
     ViewData["Title"] = "Create";
 }
 
+@{
+    List<string> mensajes;
+
+    if (ViewBag.Mensajes != null)
+    {
+        mensajes = ViewBag.Mensajes;
+    }
+    else
+    {
+        mensajes = new List<string>();
+    }
+
+
+}
+
+
 <h1>Create</h1>
+
+@foreach (string mensaje in mensajes)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @mensaje
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 
 <h4>Parqueo</h4>
 <hr />

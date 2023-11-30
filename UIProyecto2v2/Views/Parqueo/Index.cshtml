@@ -4,15 +4,35 @@
     ViewData["Title"] = "Parqueos";
 }
 
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+@{
+    List<string> mensajes;
+
+    if (ViewBag.Mensajes != null)
+    {
+        mensajes = ViewBag.Mensajes;
+    }
+    else
+    {
+        mensajes = new List<string>();
+    }
+
+
+}
+
 
 
 <h1>Parqueo</h1>
+@foreach (string mensaje in mensajes)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @mensaje
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a asp-action="Create" class="navbar-brand">Crear Parqueo</a>
@@ -51,13 +71,13 @@
                 @Html.DisplayNameFor(model => model.HoraCierre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.totalVendido)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.TarifaHora)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TarifaMediaHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalVendido)
             </th>
             <th></th>
         </tr>
@@ -80,15 +100,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.HoraCierre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.totalVendido)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.TarifaHora)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TarifaMediaHora)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.totalVendido)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

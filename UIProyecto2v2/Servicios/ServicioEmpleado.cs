@@ -101,6 +101,28 @@ namespace UIProyecto2v2.Servicios
             return lista;
         }
 
+        public async Task<string> Borrar(int id)
+        {
+
+            var cliente = new HttpClient();
+            cliente.BaseAddress = new Uri(_baseurl);
+
+
+            var response = await cliente.DeleteAsync($"api/Empleado/{id}?");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return "OK";
+            }
+            else
+            {
+                string contenido = await response.Content.ReadAsStringAsync();
+                return contenido;
+            }
+
+
+        }
+
 
 
 

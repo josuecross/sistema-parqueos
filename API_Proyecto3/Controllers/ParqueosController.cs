@@ -80,7 +80,8 @@ namespace API_Proyecto3.Controllers
             try
             {
                 OperacionesEnParqueo OParqueo = new OperacionesEnParqueo(_context);
-                OParqueo.PutParqueo(id, parqueo);
+                await OParqueo.PutParqueo(id, parqueo);
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -102,10 +103,10 @@ namespace API_Proyecto3.Controllers
         [HttpPost]
         public async Task<ActionResult<Parqueo>> PostParqueo(Parqueo parqueo)
         {
-          if (_context.Parqueo == null)
-          {
-              return Problem("Entity set 'API_Proyecto3Context.Parqueo'  is null.");
-          }
+            if (_context.Parqueo == null)
+            {
+                return Problem("Entity set 'API_Proyecto3Context.Parqueo'  is null.");
+            }
             _context.Parqueo.Add(parqueo);
             int res = await _context.SaveChangesAsync();
             if (res > 0)

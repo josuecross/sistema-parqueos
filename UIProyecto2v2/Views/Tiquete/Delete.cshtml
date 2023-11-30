@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.Salida)
         </dt>
         <dd class = "col-sm-10">
-            @if (Model.EnUso)
+            @if ( Model.Salida == null)
             {
                 <p>En uso</p>
             }
@@ -64,7 +64,7 @@
             @Html.DisplayNameFor(model => model.Monto_Pagado)
         </dt>
         <dd class="col-sm-10">
-            @if (Model.EnUso)
+            @if (Model.Monto_Pagado == null)
             {
                 <p>En uso</p>
             }

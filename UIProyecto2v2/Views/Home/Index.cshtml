@@ -29,7 +29,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.totalVendido)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -55,9 +54,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.totalVendido)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Ver ventas</a>
                     </td>
                 </tr>
             }

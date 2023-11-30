@@ -8,7 +8,7 @@ namespace UIProyecto2v2.Servicios
 		public Task<List<Tiquete>> Get();
 		public Task<string> Guardar(Tiquete obj_tiquete);
 		public Task<string> CerrarTiquete(int id);
-		public Task<bool> Actualizar(int id, Tiquete obj_tiquete);
+		public Task<string> Actualizar(int id, Tiquete obj_tiquete);
 		public Task<Tiquete> BuscarTiqueteID(int id);
         public Task<Parqueo> GetParqueodelTiquete(int id);
 		public Task<string> Borrar(int id);

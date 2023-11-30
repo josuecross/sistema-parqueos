@@ -6,7 +6,43 @@
 
 <h1>Edit</h1>
 
+@{
+    List<string> mensajes;
+    List<Parqueo> parqueos;
+    if (ViewBag.Parqueos != null)
+    {
+        parqueos = ViewBag.Parqueos;
+    }
+    else
+    {
+        parqueos = new List<Parqueo>();
+    }
+    if (ViewBag.Mensajes != null)
+    {
+        mensajes = ViewBag.Mensajes;
+    }
+    else
+    {
+        mensajes = new List<string>();
+    }
+
+
+}
+
+
 <h4>Tiquete</h4>
+
+@foreach (string mensaje in mensajes)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @mensaje
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,17 +51,24 @@
             <input type="hidden" asp-for="TiqueteID" />
             <div class="form-group">
                 <label asp-for="ParqueoID" class="control-label"></label>
-                <input asp-for="ParqueoID" class="form-control" />
+                <select asp-for="ParqueoID" class="form-control" id="parqueoId">
+                    @foreach (Parqueo p in parqueos)
+                    {
+                        <option value=@p.Id>@p.Nombre; Abre: @p.HoraApertura.ToString("HH:mm"); Cierra: @p.HoraCierre.ToString("HH:mm")</option>
+
+                    }
+
+                </select>
                 <span asp-validation-for="ParqueoID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ingreso" class="control-label"></label>
-                <input asp-for="Ingreso" class="form-control" />
+                <input asp-for="Ingreso" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="Ingreso" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Salida" class="control-label"></label>
-                <input asp-for="Salida" class="form-control" />
+                <input asp-for="Salida" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="Salida" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,21 +76,10 @@
                 <input asp-for="Placa" class="form-control" />
                 <span asp-validation-for="Placa" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TarifaHora" class="control-label"></label>
-                <input asp-for="TarifaHora" class="form-control" />
-                <span asp-validation-for="TarifaHora" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TarifaMediaHora" class="control-label"></label>
-                <input asp-for="TarifaMediaHora" class="form-control" />
-                <span asp-validation-for="TarifaMediaHora" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnUso" /> @Html.DisplayNameFor(model => model.EnUso)
-                </label>
-            </div>
+            <input asp-for="TarifaHora" type="hidden" class="form-control" />
+            <input asp-for="TarifaMediaHora" type="hidden" class="form-control" />
+            <input class="form-check-input" type="hidden" asp-for="EnUso" />
+   
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

@@ -81,6 +81,7 @@ namespace UIProyecto2v2.Controllers
         // GET: Empleadoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Parqueos = _iservicioParqueo.Get().Result;
             if (id == null)
             {
                 return NotFound("No se especifico el id");
@@ -125,8 +126,42 @@ namespace UIProyecto2v2.Controllers
             return View(empleado);
         }
 
-      
 
- 
+        // GET: Tiquete/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound("No se especifico el id");
+            }
+
+            var tiquete = await _iservicioEmpleado.BuscarEmpleado((int)id);
+
+
+            if (tiquete == null)
+            {
+                return NotFound("No se encontro el tiquete");
+            }
+
+            return View(tiquete);
+        }
+
+        // POST: Tiquete/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var res = await _iservicioEmpleado.Borrar(id);
+            if (res.Equals("OK"))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return BadRequest(res);
+            }
+
+        }
+
     }
 }

@@ -10,9 +10,13 @@ namespace UIProyecto2v2.Models
 		public DateTime? Salida { get; set; }
         [StringLength(15, ErrorMessage = "No puede ser mayor a 15 caracteres.")]
         public string Placa { get; set; }
-		public int? TarifaHora { get; set; }
-		public int? TarifaMediaHora { get; set; }
-		public bool EnUso { get; set; } = true;
+        [Display(Name = "Tarifa hora")]
+        public int? TarifaHora { get; set; }
+        [Display(Name = "Tarifa media hora")]
+        public int? TarifaMediaHora { get; set; }
+        [Display(Name = "En uso")]
+        public bool EnUso { get; set; } = true;
+        [Display(Name = "Total pagado")]
         public int? Monto_Pagado { get; set; }
     }
 }

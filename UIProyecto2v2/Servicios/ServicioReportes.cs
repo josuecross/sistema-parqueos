@@ -22,7 +22,7 @@ namespace UIProyecto2v2.Servicios
             cliente.BaseAddress = new Uri(_baseurl);
             string query;
 
-            if (From != null && To != null)
+            if (!String.IsNullOrEmpty(From) && !String.IsNullOrEmpty(To))
             {
                 var queryParameters = new Dictionary<string, string>
                 {
@@ -54,14 +54,35 @@ namespace UIProyecto2v2.Servicios
             }
             return lista;
         }
-        public async Task<List<Parqueo>> GetParqueosMasVentas()
+
+        public async Task<List<Parqueo>> GetParqueosMasVentas(string? From, string? To)
         {
             List<Parqueo> lista = new List<Parqueo>();
             var cliente = new HttpClient();
             cliente.BaseAddress = new Uri(_baseurl);
             string query;
 
-            var response = await cliente.GetAsync($"api/Reporte/Parqueo");
+           
+            if (!String.IsNullOrEmpty(From) && !String.IsNullOrEmpty(To))
+            {
+                var queryParameters = new Dictionary<string, string>
+                {
+                    { "From", From },
+                    { "To", To}
+                };
+                var dictFormUrlEncoded = new FormUrlEncodedContent(queryParameters);
+                var queryString = await dictFormUrlEncoded.ReadAsStringAsync();
+
+
+                query = $"api/Reporte/Parqueo?{queryString}";
+            }
+            else
+            {
+                query = $"api/Reporte/Parqueo";
+            }
+     
+            var response = await cliente.GetAsync(query);
+
 
             if (response.IsSuccessStatusCode)
             {

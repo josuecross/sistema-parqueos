@@ -4,6 +4,11 @@
     ViewData["Title"] = "Edit";
 }
 
+
+@{
+    var parqueos = ViewBag.Parqueos;
+}
+
 <h1>Edit</h1>
 
 <h4>Empleado</h4>
@@ -15,7 +20,13 @@
             <input type="hidden" asp-for="EmpleadoID" />
             <div class="form-group">
                 <label asp-for="ParqueoID" class="control-label"></label>
-                <input asp-for="ParqueoID" class="form-control" />
+                <select asp-for="ParqueoID" class="form-control">
+                    @foreach (Parqueo p in parqueos)
+                    {
+                        <option value=@p.Id>@p.Id @p.Nombre</option>
+                    }
+
+                </select>
                 <span asp-validation-for="ParqueoID" class="text-danger"></span>
             </div>
             <div class="form-group">

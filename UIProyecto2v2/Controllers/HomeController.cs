@@ -19,7 +19,7 @@ namespace UIProyecto2v2.Controllers
 		public async Task<IActionResult> Index()
 		{
             List<Parqueo> lalista;
-            lalista = await _iservicioReportes.GetParqueosMasVentas();
+            lalista = await _iservicioReportes.GetParqueosMasVentas(null, null);
             return View(lalista);
 		}
 

@@ -10,5 +10,6 @@ namespace UIProyecto2v2.Servicios
 		public Task<Empleado> BuscarEmpleado(int id);
 		public Task<bool> Actualizar(int id, Empleado obj_parqueo);
         Task<List<Empleado>> GetSearch(string searchString);
+        public Task<string> Borrar(int id);
     }
 }

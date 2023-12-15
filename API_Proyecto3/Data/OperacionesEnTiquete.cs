@@ -13,7 +13,7 @@ namespace API_Proyecto3.Data
 
         public async Task<bool> PutTiquete(int id, Tiquete tiquete)
         {
-            _context.Entry(tiquete).State = EntityState.Modified;
+    
             var parqueo = await _context.Parqueo.FindAsync(tiquete.ParqueoId);
 
             
@@ -126,7 +126,7 @@ namespace API_Proyecto3.Data
             await _context.SaveChangesAsync();
 
             OperacionesEnParqueo OParqueo = new OperacionesEnParqueo(_context);
-            OParqueo.ActualizarTotalVendido(tiquete.ParqueoId);
+            await OParqueo.ActualizarTotalVendido(tiquete.ParqueoId);
 
             return true;
         }

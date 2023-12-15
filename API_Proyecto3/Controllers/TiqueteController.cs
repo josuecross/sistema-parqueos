@@ -79,6 +79,7 @@ namespace API_Proyecto3.Controllers
             {
                 OperacionesEnTiquete OTiquete = new OperacionesEnTiquete(_context);
                 await OTiquete.PutTiquete(id, tiquete);
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {
